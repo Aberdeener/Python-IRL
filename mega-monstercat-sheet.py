@@ -11,11 +11,10 @@ client = gspread.authorize(creds)
 sheet = client.open("Test123").sheet1
 
 if response.status_code == 200:
-    print("connected to api...")
+    
+    print("connected... inserting to sheet...")
 
-    # future tadhg: we need to read json backwards
-    print("reading json and inserting to table...")
-    for song in response.json()['results']:
+    for song in sorted(response.json()['results'], key=lambda i: i['debutDate']):
 
         values_list = sheet.col_values(3)
         if song['title'] in values_list:
